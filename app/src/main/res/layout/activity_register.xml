@@ -5,7 +5,7 @@
     android:padding="16dp"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context="com.crapp.testapp.LoginActivity" >
+    tools:context="com.crapp.testapp.RegisterActivity" >
 
     <TextView
         android:id="@+id/name_user"

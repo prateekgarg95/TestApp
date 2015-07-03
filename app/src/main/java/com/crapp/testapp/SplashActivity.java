@@ -45,7 +45,7 @@ public class SplashActivity extends Activity {
                     finish();
                 } else {
                     // If the User hasn't logged in yet then Login with Google Screen is shown
-                    Intent i = new Intent(SplashActivity.this,LoginActivity.class);
+                    Intent i = new Intent(SplashActivity.this,RegisterActivity.class);
                     startActivity(i);
                     // Deleting the Splash Screen from Activity History
                     finish();

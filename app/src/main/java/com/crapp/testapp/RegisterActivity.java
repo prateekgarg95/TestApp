@@ -2,7 +2,6 @@ package com.crapp.testapp;
 
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.content.SharedPreferences;
@@ -37,12 +36,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class LoginActivity extends Activity implements OnClickListener,
+public class RegisterActivity extends Activity implements OnClickListener,
         ConnectionCallbacks, OnConnectionFailedListener {
 
     private static final int RC_SIGN_IN = 0;
     // Logcat tag
-    private static final String TAG = "LoginActivity";
+    private static final String TAG = "RegisterActivity";
 
     // Google client to interact with Google API
     private GoogleApiClient mGoogleApiClient;
@@ -71,7 +70,7 @@ public class LoginActivity extends Activity implements OnClickListener,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_register);
 
         btnSignIn = (SignInButton) findViewById(R.id.button_sign_in);
         txtName = (TextView) findViewById(R.id.name_user);
@@ -219,7 +218,7 @@ public class LoginActivity extends Activity implements OnClickListener,
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login, menu);
+        getMenuInflater().inflate(R.menu.menu_register, menu);
         return true;
     }
 
@@ -243,7 +242,7 @@ public class LoginActivity extends Activity implements OnClickListener,
                     editor.putBoolean("REGISTERED", true);
                     editor.apply();
                     Toast.makeText(this, "User is Registered!", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(LoginActivity.this,DashboardActivity.class);
+                    Intent intent = new Intent(RegisterActivity.this,DashboardActivity.class);
                     startActivity(intent);
                     finish();
 
