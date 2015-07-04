@@ -30,4 +30,10 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"/>
 
+    <TextView
+        android:id="@+id/please_wait"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Please Wait..."/>
+
 </LinearLayout>

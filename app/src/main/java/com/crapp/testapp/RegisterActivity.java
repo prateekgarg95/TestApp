@@ -2,12 +2,14 @@ package com.crapp.testapp;
 
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -36,7 +38,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class RegisterActivity extends Activity implements OnClickListener,
+public class RegisterActivity extends Activity implements //OnClickListener,
         ConnectionCallbacks, OnConnectionFailedListener {
 
     private static final int RC_SIGN_IN = 0;
@@ -55,7 +57,7 @@ public class RegisterActivity extends Activity implements OnClickListener,
 
     private SignInButton btnSignIn;
 
-    private TextView txtName,txtEmail;
+    private TextView txtName, txtEmail, txtWait;
     private Button btnRegister;
 
     private String userName, userEmail;
@@ -63,8 +65,6 @@ public class RegisterActivity extends Activity implements OnClickListener,
     private String URL = "http://quesdesk.hostzi.com/create_user.php";
 
     private int success;
-
-
 
 
     @Override
@@ -76,14 +76,30 @@ public class RegisterActivity extends Activity implements OnClickListener,
         txtName = (TextView) findViewById(R.id.name_user);
         txtEmail = (TextView) findViewById(R.id.email_user);
         btnRegister = (Button) findViewById(R.id.button_register);
+        txtWait = (TextView) findViewById(R.id.please_wait);
 
         txtName.setVisibility(View.GONE);
         txtEmail.setVisibility(View.GONE);
         btnRegister.setVisibility(View.GONE);
+        txtWait.setVisibility(View.INVISIBLE);
 
         // Button click listeners
-        btnSignIn.setOnClickListener(this);
-        btnRegister.setOnClickListener(this);
+        btnSignIn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signInWithGplus();
+                txtWait.setVisibility(View.VISIBLE);
+            }
+        });
+
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //txtWait.setVisibility(View.VISIBLE);
+                register();
+            }
+        });
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -170,10 +186,7 @@ public class RegisterActivity extends Activity implements OnClickListener,
         txtName.setVisibility(View.VISIBLE);
         txtEmail.setVisibility(View.VISIBLE);
         btnRegister.setVisibility(View.VISIBLE);
-
-
-
-
+        txtWait.setVisibility(View.INVISIBLE);
 
 
     }
@@ -222,34 +235,6 @@ public class RegisterActivity extends Activity implements OnClickListener,
         return true;
     }
 
-    /**
-     * Button on click listener
-     */
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.button_sign_in:
-                // Signin button clicked
-                signInWithGplus();
-                break;
-            case R.id.button_register:
-                sendUserData();
-                if (success == 1){
-                    SharedPreferences userPrefs = getSharedPreferences("USER", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = userPrefs.edit();
-                    editor.putString("NAME", userName);
-                    editor.putString("EMAIL", userEmail);
-                    editor.putBoolean("REGISTERED", true);
-                    editor.apply();
-                    Toast.makeText(this, "User is Registered!", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(RegisterActivity.this,DashboardActivity.class);
-                    startActivity(intent);
-                    finish();
-
-                }
-                break;
-        }
-    }
 
 
     private void signInWithGplus() {
@@ -283,31 +268,50 @@ public class RegisterActivity extends Activity implements OnClickListener,
         }
     }
 
-    private void sendUserData(){
+    private void sendUserData() {
         Map<String, String> params = new HashMap<>();
         params.put("name", userName);
         params.put("email", userEmail);
 
-        CustomArrayRequest jsonArrayRequest = new CustomArrayRequest(Request.Method.POST, URL, params, new Response.Listener<JSONArray>(){
+        CustomArrayRequest jsonArrayRequest = new CustomArrayRequest(Request.Method.POST, URL, params, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray jsonArray) {
                 try {
                     success = Integer.parseInt(jsonArray.getJSONObject(0).getString("success"));
-                }catch (JSONException e){
+                } catch (JSONException e) {
                     e.printStackTrace();
                     success = 0;
                 }
+                if (success == 1) {
+                    SharedPreferences userPrefs = getSharedPreferences("USER", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = userPrefs.edit();
+                    editor.putString("NAME", userName);
+                    editor.putString("EMAIL", userEmail);
+                    editor.putBoolean("REGISTERED", true);
+                    editor.apply();
+                    Toast.makeText(RegisterActivity.this, "User is Registered!", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(RegisterActivity.this, DashboardActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Toast.makeText(RegisterActivity.this, "Registration Failed!", Toast.LENGTH_LONG).show();
+                }
+
             }
-        }, new Response.ErrorListener(){
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 volleyError.printStackTrace();
-                success = 0;
+                Toast.makeText(RegisterActivity.this, "Registration Failed!", Toast.LENGTH_LONG).show();
             }
         });
         AppController.getInstance().addToRequestQueue(jsonArrayRequest);
-
     }
 
 
+    private void register() {
+
+        sendUserData();
+
+    }
 }
