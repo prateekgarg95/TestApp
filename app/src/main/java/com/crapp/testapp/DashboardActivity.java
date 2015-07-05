@@ -1,38 +1,42 @@
 package com.crapp.testapp;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
-public class DashboardActivity extends ActionBarActivity {
+public class DashboardActivity extends Activity {
+
+    private ListView classroomListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-    }
+        classroomListView = (ListView) findViewById(R.id.classroom_listview);
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_dashboard, menu);
-        return true;
-    }
+        List<Classroom> classroomListItems = new ArrayList<Classroom>();
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        classroomListItems.add(new Classroom("Nigeria", R.drawable.default_classroom_image));
+        classroomListItems.add(new Classroom("Ghana", R.drawable.default_classroom_image));
+        classroomListItems.add(new Classroom("Senegal", R.drawable.default_classroom_image));
+        classroomListItems.add(new Classroom("Togo", R.drawable.default_classroom_image));
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        classroomListView.setAdapter(new ClassroomListAdapter(this, classroomListItems));
+        classroomListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // make Toast when click
+                Toast.makeText(getApplicationContext(), "Position " + position, Toast.LENGTH_LONG).show();
 
-        return super.onOptionsItemSelected(item);
+            }
+
+        });
     }
 }

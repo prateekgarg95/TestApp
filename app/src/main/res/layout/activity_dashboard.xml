@@ -7,7 +7,7 @@
     tools:context="com.crapp.testapp.DashboardActivity">
 
     <ListView
-        android:id="@+id/classroom_list"
+        android:id="@+id/classroom_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:divider="#000000"
