@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:divider="#000000"
-        android:layout_above="@+id/add_classroom_button">
+        android:layout_above="@+id/add_classroom_button"
+        android:layout_alignParentTop="true">
 
     </ListView>
 
@@ -19,7 +20,7 @@
         android:id="@+id/add_classroom_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ADD NEW CLASSROOM"
+        android:text="ADD CLASSROOM"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
