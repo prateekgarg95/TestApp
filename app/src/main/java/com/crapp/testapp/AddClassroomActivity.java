@@ -1,38 +1,35 @@
 package com.crapp.testapp;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
+public class AddClassroomActivity extends Activity {
 
-public class AddClassroomActivity extends ActionBarActivity {
+    private EditText etClassroomName;
+    private Button btnAddClassroom;
+
+    private DatabaseHandler databaseHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_classroom);
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_add_classroom, menu);
-        return true;
-    }
+        etClassroomName=(EditText)findViewById(R.id.classroom_name);
+        btnAddClassroom=(Button)findViewById(R.id.add_classroom_button);
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        databaseHandler = new DatabaseHandler(AddClassroomActivity.this);
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        btnAddClassroom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                databaseHandler.addClassroom(new Classroom(etClassroomName.getText().toString()));
+            }
+        });
 
-        return super.onOptionsItemSelected(item);
+
     }
 }
