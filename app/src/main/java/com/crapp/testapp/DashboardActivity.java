@@ -13,13 +13,14 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 
 public class DashboardActivity extends Activity {
 
     private ListView classroomListView;
+
+    private DatabaseHandler databaseHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +45,7 @@ public class DashboardActivity extends Activity {
         }
         classroomListView = (ListView) findViewById(R.id.classroom_listview);
 
-        List<Classroom> classroomListItems = new ArrayList<>();
-
-        classroomListItems.add(new Classroom("Nigeria"));
-        classroomListItems.add(new Classroom("Ghana"));
-        classroomListItems.add(new Classroom("Senegal"));
-        classroomListItems.add(new Classroom("Togo"));
+        List<Classroom> classroomListItems = databaseHandler.getAllClassroom();
 
         classroomListView.setAdapter(new ClassroomListAdapter(this, classroomListItems));
         classroomListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -22,6 +22,20 @@ public class Classroom {
     private String createdAt;
     private String lastUpdateAt;
 
+    public Classroom(){
+
+    }
+
+    public Classroom(int classroomID,String classroomServerID,String classroomName,String classroomImagePath,
+                     String createdAt,String lastUpdateAt){
+        this.classroomID = classroomID;
+        this.classroomServerID = classroomServerID;
+        this.classroomName = classroomName;
+        this.classroomImagePath = classroomImagePath;
+        this.createdAt = createdAt;
+        this.lastUpdateAt = lastUpdateAt;
+    }
+
     public Classroom(String classroomName){
         this.classroomName=classroomName;
 
