@@ -66,6 +66,12 @@ public class DashboardActivity extends Activity {
 
 
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         classroomListView = (ListView) findViewById(R.id.classroom_listview);
         databaseHandler = new DatabaseHandler(DashboardActivity.this);
         List<Classroom> classroomListItems = databaseHandler.getAllClassroom();
@@ -80,10 +86,5 @@ public class DashboardActivity extends Activity {
             }
 
         });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 }

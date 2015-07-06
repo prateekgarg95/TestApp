@@ -18,6 +18,7 @@ public class Classroom {
     private int classroomID;
     private String classroomServerID;
     private String classroomName;
+    private String classroomSubject;
     private String classroomImagePath;
     private String createdAt;
     private String lastUpdateAt;
@@ -26,18 +27,23 @@ public class Classroom {
 
     }
 
-    public Classroom(int classroomID,String classroomServerID,String classroomName,String classroomImagePath,
-                     String createdAt,String lastUpdateAt){
+    public Classroom(int classroomID,String classroomServerID,String classroomName,String classroomSubject,
+                     String classroomImagePath,String createdAt,String lastUpdateAt){
         this.classroomID = classroomID;
         this.classroomServerID = classroomServerID;
         this.classroomName = classroomName;
+        this.classroomSubject = classroomSubject;
         this.classroomImagePath = classroomImagePath;
         this.createdAt = createdAt;
         this.lastUpdateAt = lastUpdateAt;
     }
 
-    public Classroom(String classroomName){
+
+
+    public Classroom(String classroomName,String classroomSubject){
         this.classroomName=classroomName;
+        this.classroomSubject=classroomSubject;
+
 
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -79,6 +85,14 @@ public class Classroom {
 
     public void setClassroomName(String classroomName) {
         this.classroomName = classroomName;
+    }
+
+    public String getClassroomSubject() {
+        return classroomSubject;
+    }
+
+    public void setClassroomSubject(String classroomSubject) {
+        this.classroomSubject = classroomSubject;
     }
 
     public String getClassroomImagePath() {

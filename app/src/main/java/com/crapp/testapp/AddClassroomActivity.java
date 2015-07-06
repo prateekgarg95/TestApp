@@ -9,6 +9,7 @@ import android.widget.EditText;
 public class AddClassroomActivity extends Activity {
 
     private EditText etClassroomName;
+    private EditText etSubject;
     private Button btnAddClassroom;
 
     private DatabaseHandler databaseHandler;
@@ -19,6 +20,7 @@ public class AddClassroomActivity extends Activity {
         setContentView(R.layout.activity_add_classroom);
 
         etClassroomName=(EditText)findViewById(R.id.classroom_name);
+        etSubject=(EditText)findViewById(R.id.classroom_subject);
         btnAddClassroom=(Button)findViewById(R.id.add_classroom_button);
 
         databaseHandler = new DatabaseHandler(AddClassroomActivity.this);
@@ -26,7 +28,7 @@ public class AddClassroomActivity extends Activity {
         btnAddClassroom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                databaseHandler.addClassroom(new Classroom(etClassroomName.getText().toString()));
+                databaseHandler.addClassroom(new Classroom(etClassroomName.getText().toString(),etSubject.getText().toString()));
             }
         });
 
